@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # MySQL Service
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql_foodee
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: foodee_app
+      MYSQL_USER: baitap
+      MYSQL_PASSWORD: 1
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./server/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+    networks:
+      - foodee_network
+    command: --default-authentication-plugin=mysql_native_password
+
+  # phpMyAdmin Service  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_foodee
+    environment:
+      PMA_HOST: mysql-db
+      MYSQL_ROOT_PASSWORD: 1
+    ports:
+      - "8844:80"
+    depends_on:
+      - mysql-db
+    networks:
+      - foodee_network
+
+  # Node.js Backend Service
+  server:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: node_foodee
+    restart: always
+    ports:
+      - "5000:5001"
+    depends_on:
+      - mysql-db
+    environment:
+      - DB_HOST=mysql-db
+      - DB_USER=baitap
+      - DB_PASSWORD=1
+      - DB_NAME=foodee_app
+      - DB_PORT=3306
+    networks:
+      - foodee_network
+
+  # React Frontend Service    
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: react_foodee
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    networks:
+      - foodee_network
+
+volumes:
+  mysql_data:
+
+networks:
+  foodee_network:
+    driver: bridge

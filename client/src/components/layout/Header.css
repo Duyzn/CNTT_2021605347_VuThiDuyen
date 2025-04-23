@@ -1,0 +1,38 @@
+.shopping-cart {
+    position: relative;
+  }
+
+.cart-count {
+  position: absolute;
+  top: 2px;
+  right: -8px;
+  background: #F28123;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-info {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 15px;
+  background: #F28123;
+  border-radius: 20px;
+  margin-left: 20px;
+  color: white;
+}
+
+.table-label {
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.table-number {
+  font-size: 1.1em;
+  font-weight: bold;
+}

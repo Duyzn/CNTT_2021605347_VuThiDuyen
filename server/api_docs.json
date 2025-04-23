@@ -1,0 +1,1136 @@
+{
+    "info": {
+      "name": "ComNha Restaurant API",
+      "description": "API documentation cho hệ thống quản lý nhà hàng Cơm Nhà",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Authentication",
+        "item": [
+          {
+            "name": "Login",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "url": "{{base_url}}/api/auth/login",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"password123\"\n}"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Cart Management",
+        "description": "APIs để quản lý giỏ hàng theo bàn",
+        "item": [
+          {
+            "name": "Add to Cart",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/cart/add",
+              "description": "Thêm món ăn vào giỏ hàng của bàn",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"tableId\": 1,\n\t\"productId\": 1,\n\t\"quantity\": 1,\n\t\"toppings\": [{\n\t\t\"id\": 1,\n\t\t\"name\": \"Extra cheese\",\n\t\t\"price_adjustment\": 10000\n\t}]\n}"
+              }
+            },
+            "response": [
+              {
+                "name": "Success",
+                "originalRequest": {
+                  "method": "POST",
+                  "header": [],
+                  "url": "{{base_url}}/api/cart/add"
+                },
+                "status": "OK",
+                "code": 200,
+                "_postman_previewlanguage": "json",
+                "body": "{\n    \"success\": true,\n    \"message\": \"Thêm vào giỏ hàng thành công\"\n}"
+              }
+            ]
+          },
+          {
+            "name": "Get Cart Items",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/cart/:tableId",
+              "description": "Lấy danh sách món ăn trong giỏ hàng của bàn"
+            }
+          },
+          {
+            "name": "Update Quantity", 
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/cart/update",
+              "description": "Cập nhật số lượng món ăn trong giỏ hàng",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"orderId\": 1,\n\t\"quantity\": 2\n}"
+              }
+            }
+          },
+          {
+            "name": "Remove Item",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Content-Type", 
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/cart/item/:orderId",
+              "description": "Xóa một món ăn khỏi giỏ hàng"
+            }
+          },
+          {
+            "name": "Clear Cart",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/cart/clear/:tableId",
+              "description": "Xóa toàn bộ giỏ hàng của một bàn"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Category Management",
+        "description": "APIs để quản lý danh mục món ăn",
+        "item": [
+          {
+            "name": "Get Public Categories",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/categories/public",
+              "description": "Lấy danh sách danh mục đang hoạt động (is_active = 1)"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Món chính\",\n            \"description\": \"Các món ăn chính\",\n            \"is_active\": 1\n        }\n    ]\n}"
+              }
+            ]
+          },
+          {
+            "name": "Get All Categories",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/categories",
+              "description": "Lấy tất cả danh mục (yêu cầu đăng nhập)"
+            }
+          },
+          {
+            "name": "Create Category",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/categories",
+              "description": "Tạo danh mục mới",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"name\": \"Món chính\",\n\t\"description\": \"Các món ăn chính\",\n\t\"is_active\": true\n}"
+              }
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"message\": \"Thêm danh mục thành công\",\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Món chính\",\n        \"description\": \"Các món ăn chính\",\n        \"is_active\": true\n    }\n}"
+              }
+            ]
+          },
+          {
+            "name": "Update Category",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/categories/:id",
+              "description": "Cập nhật thông tin danh mục. Không thể tắt is_active nếu danh mục đang có sản phẩm",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"name\": \"Món chính\",\n\t\"description\": \"Các món ăn chính đã cập nhật\",\n\t\"is_active\": true\n}"
+              }
+            }
+          },
+          {
+            "name": "Delete Category",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/categories/:id",
+              "description": "Xóa danh mục"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Product Management",
+        "description": "APIs để quản lý sản phẩm/món ăn của nhà hàng",
+        "item": [
+          {
+            "name": "Get Public Products",
+            "request": {
+              "method": "GET",
+              "url": "{{base_url}}/api/products/public",
+              "description": "Lấy danh sách sản phẩm đang available cho khách hàng"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Phở bò\",\n            \"price\": 50000,\n            \"description\": \"Phở bò truyền thống\",\n            \"category_id\": 1,\n            \"category_name\": \"Món chính\",\n            \"image_name\": \"pho-bo.jpg\",\n            \"is_available\": 1\n        }\n    ]\n}"
+              }
+            ]
+          },
+          {
+            "name": "Get Admin Products",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/products",
+              "description": "Lấy danh sách tất cả sản phẩm cho admin, bao gồm cả options"
+            }
+          },
+          {
+            "name": "Get Product Details",
+            "request": {
+              "method": "GET",
+              "url": "{{base_url}}/api/products/public/:id",
+              "description": "Lấy chi tiết một sản phẩm"
+            }
+          },
+          {
+            "name": "Get Related Products",
+            "request": {
+              "method": "GET",
+              "url": "{{base_url}}/api/products/related/:id",
+              "description": "Lấy 3 sản phẩm liên quan (cùng danh mục)"
+            }
+          },
+          {
+            "name": "Get Product Toppings",
+            "request": {
+              "method": "GET",
+              "url": "{{base_url}}/api/products/toppings/:productId",
+              "description": "Lấy danh sách topping của sản phẩm"
+            }
+          },
+          {
+            "name": "Add Product",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/products",
+              "description": "Thêm sản phẩm mới (chỉ admin)",
+              "body": {
+                "mode": "formdata",
+                "formdata": [
+                  {
+                    "key": "name",
+                    "value": "Phở bò",
+                    "type": "text"
+                  },
+                  {
+                    "key": "price",
+                    "value": "50000",
+                    "type": "text"
+                  },
+                  {
+                    "key": "description",
+                    "value": "Phở bò truyền thống",
+                    "type": "text"
+                  },
+                  {
+                    "key": "category_id",
+                    "value": "1",
+                    "type": "text"
+                  },
+                  {
+                    "key": "selectedOptions",
+                    "value": "[1,2,3]",
+                    "type": "text"
+                  },
+                  {
+                    "key": "image",
+                    "type": "file",
+                    "src": []
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Update Product",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/products/:id",
+              "description": "Cập nhật thông tin sản phẩm (chỉ admin)",
+              "body": {
+                "mode": "formdata",
+                "formdata": [
+                  {
+                    "key": "name",
+                    "value": "Phở bò đặc biệt",
+                    "type": "text"
+                  },
+                  {
+                    "key": "price",
+                    "value": "60000",
+                    "type": "text"
+                  },
+                  {
+                    "key": "description",
+                    "value": "Phở bò đặc biệt với nhiều topping",
+                    "type": "text"
+                  },
+                  {
+                    "key": "category_id",
+                    "value": "1",
+                    "type": "text"
+                  },
+                  {
+                    "key": "is_available",
+                    "value": "true",
+                    "type": "text"
+                  },
+                  {
+                    "key": "selectedOptions",
+                    "value": "[1,2,3,4]",
+                    "type": "text"
+                  },
+                  {
+                    "key": "image",
+                    "type": "file",
+                    "src": []
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Delete Product",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/products/:id",
+              "description": "Xóa sản phẩm và các liên kết topping (chỉ admin)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Order Management",
+        "description": "APIs để quản lý đơn hàng trong nhà hàng",
+        "item": [
+          {
+            "name": "Add New Order",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/orders/add",
+              "description": "Tạo đơn hàng mới với danh sách món ăn và topping",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"tableId\": 1,\n\t\"products\": [\n\t\t{\n\t\t\t\"product_id\": 1,\n\t\t\t\"quantity\": 2,\n\t\t\t\"order_toppings\": [\n\t\t\t\t{\n\t\t\t\t\t\"id\": 1,\n\t\t\t\t\t\"name\": \"Extra cheese\",\n\t\t\t\t\t\"price_adjustment\": 10000\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}"
+              }
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"message\": \"Đơn hàng đã được tạo thành công\",\n    \"data\": {\n        \"order_id\": 1,\n        \"order_code\": \"ORD123456789\"\n    }\n}"
+              }
+            ]
+          },
+          {
+            "name": "Get All Orders",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/orders",
+              "description": "Lấy danh sách tất cả đơn hàng"
+            }
+          },
+          {
+            "name": "Update Order Status",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/orders/:id/status",
+              "description": "Cập nhật trạng thái đơn hàng",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"status\": \"completed\"\n}"
+              }
+            }
+          },
+          {
+            "name": "Set Order Completed",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/orders/:id/complete",
+              "description": "Chuyển đơn hàng sang tr��ng thái hoàn thành"
+            }
+          },
+          {
+            "name": "Set Order Pending",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/orders/:id/pending",
+              "description": "Chuyển đơn hàng sang trạng thái chờ"
+            }
+          },
+          {
+            "name": "Delete Order",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/orders/:id",
+              "description": "Xóa đơn hàng"
+            }
+          },
+          {
+            "name": "Export Order",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/orders/:id/export",
+              "description": "Xuất hóa đơn chi tiết"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Support",
+        "item": [
+          {
+            "name": "Request Help",
+            "request": {
+              "method": "POST",
+              "url": "{{base_url}}/api/support/request-help",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"tableId\": 1\n}"
+              }
+            }
+          },
+          {
+            "name": "Notify Order",
+            "request": {
+              "method": "POST",
+              "url": "{{base_url}}/api/support/notify-order",
+              "body": {
+                "mode": "raw", 
+                "raw": "{\n\t\"tableId\": 1,\n\t\"products\": [],\n\t\"totalAmount\": 100000\n}"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dashboard Analytics",
+        "description": "APIs để lấy thống kê và xuất báo cáo",
+        "item": [
+          {
+            "name": "Get Dashboard Stats",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/dashboard/stats",
+              "description": "Lấy tất cả thống kê cho dashboard (chỉ admin)"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"data\": {\n        \"users\": 10,\n        \"categories\": 5,\n        \"products\": 25,\n        \"tables\": 15,\n        \"orders\": 100,\n        \"revenue\": 5000000,\n        \"revenueByMonth\": [\n            {\n                \"month\": \"03/2024\",\n                \"revenue\": 2000000\n            }\n        ],\n        \"topProducts\": [\n            {\n                \"name\": \"Phở bò\",\n                \"total_sold\": 50\n            }\n        ],\n        \"ordersByMonth\": [\n            {\n                \"month\": \"03/2024\",\n                \"count\": 30\n            }\n        ]\n    }\n}"
+              }
+            ]
+          },
+          {
+            "name": "Export Orders Report",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/dashboard/export/orders",
+              "description": "Xuất báo cáo đơn hàng ra file Excel (.xlsx)"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                  },
+                  {
+                    "key": "Content-Disposition",
+                    "value": "attachment; filename=orders.xlsx"
+                  }
+                ],
+                "description": "Returns Excel file with columns: Mã đơn, Bàn, Món ăn + Topping, Số lượng, Giá, Tổng tiền, Trạng thái, Ngày tạo"
+              }
+            ]
+          },
+          {
+            "name": "Export Revenue Report",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/dashboard/export/revenue",
+              "description": "Xuất báo cáo doanh thu theo tháng ra file Excel (.xlsx)"
+            },
+            "response": [
+              {
+                "name": "Success", 
+                "status": "OK",
+                "code": 200,
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                  },
+                  {
+                    "key": "Content-Disposition", 
+                    "value": "attachment; filename=revenue.xlsx"
+                  }
+                ],
+                "description": "Returns Excel file with columns: Tháng, Doanh thu, Số đơn hàng"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Newsletter Subscription",
+        "description": "APIs để quản lý đăng ký nhận tin từ khách hàng",
+        "item": [
+          {
+            "name": "Subscribe Newsletter",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/newsletter/subscribe",
+              "description": "Đăng ký nhận tin tức và khuyến mãi qua email",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"email\": \"customer@example.com\"\n}"
+              }
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"message\": \"Đăng ký nhận tin thành công!\"\n}"
+              },
+              {
+                "name": "Error - Missing Email",
+                "status": "Bad Request",
+                "code": 400,
+                "body": "{\n    \"success\": false,\n    \"message\": \"Email is required\"\n}"
+              },
+              {
+                "name": "Error - Server Error",
+                "status": "Internal Server Error",
+                "code": 500,
+                "body": "{\n    \"success\": false,\n    \"message\": \"Có lỗi xảy ra khi đăng ký\"\n}"
+              }
+            ],
+            "description": [
+              "Gửi email chào mừng tới khách hàng với nội dung:",
+              "- Lời chào mừng",
+              "- Giới thiệu về nhà hàng",
+              "- Danh sách các loại thông tin sẽ nhận được",
+              "- Hình ảnh động GIF"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Product Options (Toppings)",
+        "description": "APIs để quản lý các tùy chọn/topping cho món ăn",
+        "item": [
+          {
+            "name": "Get All Options",
+            "request": {
+              "method": "GET",
+              "url": "{{base_url}}/api/product-options/all",
+              "description": "Lấy danh sách tất cả tùy chọn/topping có sẵn"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Extra cheese\",\n            \"price_adjustment\": 10000\n        }\n    ]\n}"
+              }
+            ]
+          },
+          {
+            "name": "Get Product Options",
+            "request": {
+              "method": "GET",
+              "url": "{{base_url}}/api/product-options/product/:product_id",
+              "description": "Lấy danh sách tùy chọn của một sản phẩm cụ thể, bao gồm trạng thái đã chọn"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Extra cheese\",\n            \"price_adjustment\": 10000,\n            \"is_selected\": 1\n        }\n    ]\n}"
+              }
+            ]
+          },
+          {
+            "name": "Create Option",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/product-options",
+              "description": "Tạo tùy chọn/topping mới (chỉ admin)",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"name\": \"Extra cheese\",\n\t\"price_adjustment\": 10000\n}"
+              }
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"message\": \"Thêm tùy chọn thành công\",\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Extra cheese\",\n        \"price_adjustment\": 10000\n    }\n}"
+              }
+            ]
+          },
+          {
+            "name": "Delete Option",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/product-options/:id",
+              "description": "Xóa tùy chọn/topping và các liên kết của nó (chỉ admin)"
+            }
+          },
+          {
+            "name": "Update Product Options",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/product-options/product",
+              "description": "Cập nhật danh sách tùy chọn cho một sản phẩm (chỉ admin)",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"product_id\": 1,\n\t\"option_ids\": [1, 2, 3]\n}"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Table Management",
+        "description": "APIs để quản lý bàn và vị trí bàn trong nhà hàng",
+        "item": [
+          {
+            "name": "Get All Tables",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/tables",
+              "description": "Lấy danh sách tất cả các bàn, sắp xếp theo số bàn"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"table_number\": \"A01\",\n            \"qr_code\": \"qr_code_a01\",\n            \"status\": \"available\",\n            \"position\": {\"x\": 100, \"y\": 100}\n        }\n    ]\n}"
+              }
+            ]
+          },
+          {
+            "name": "Get Table Info",
+            "request": {
+              "method": "GET",
+              "url": "{{base_url}}/api/tables/info/:id",
+              "description": "Lấy thông tin chi tiết của một bàn cụ thể"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"data\": {\n        \"id\": 1,\n        \"table_number\": \"A01\",\n        \"qr_code\": \"qr_code_a01\",\n        \"status\": \"available\",\n        \"position\": {\"x\": 100, \"y\": 100}\n    }\n}"
+              },
+              {
+                "name": "Not Found",
+                "status": "Not Found",
+                "code": 404,
+                "body": "{\n    \"success\": false,\n    \"message\": \"Không tìm thấy bàn\"\n}"
+              }
+            ]
+          },
+          {
+            "name": "Create Table",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/tables",
+              "description": "Tạo bàn mới với QR code tự động",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"table_number\": \"A01\",\n\t\"status\": \"available\",\n\t\"position\": {\"x\": 100, \"y\": 100}\n}"
+              }
+            }
+          },
+          {
+            "name": "Update Table",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/tables/:id",
+              "description": "Cập nhật thông tin bàn",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"table_number\": \"A01\",\n\t\"status\": \"available\",\n\t\"position\": {\"x\": 150, \"y\": 150}\n}"
+              }
+            }
+          },
+          {
+            "name": "Update Table Position",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/tables/:id/position",
+              "description": "Cập nhật vị trí bàn (không áp dụng cho bàn CASH)",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"position\": {\"x\": 200, \"y\": 200}\n}"
+              }
+            },
+            "response": [
+              {
+                "name": "Error - CASH Table",
+                "status": "Bad Request",
+                "code": 400,
+                "body": "{\n    \"success\": false,\n    \"message\": \"Không thể di chuyển bàn thu ngân\"\n}"
+              }
+            ]
+          },
+          {
+            "name": "Delete Table",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/tables/:id",
+              "description": "Xóa bàn"
+            }
+          }
+        ]
+      },
+      {
+        "name": "User Management",
+        "description": "APIs để quản lý người dùng/nhân viên trong hệ thống",
+        "item": [
+          {
+            "name": "Get All Users",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/users",
+              "description": "Lấy danh sách tất cả người dùng (không bao gồm mật khẩu)"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"username\": \"admin\",\n            \"role\": \"admin\"\n        },\n        {\n            \"username\": \"staff1\",\n            \"role\": \"staff\"\n        }\n    ]\n}"
+              }
+            ]
+          },
+          {
+            "name": "Create User",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/users",
+              "description": "Tạo người dùng mới (chỉ admin)",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"username\": \"staff1\",\n\t\"password\": \"password123\",\n\t\"role\": \"staff\"\n}"
+              }
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"message\": \"Thêm nhân viên thành công\",\n    \"data\": {\n        \"username\": \"staff1\",\n        \"role\": \"staff\"\n    }\n}"
+              },
+              {
+                "name": "Error - Duplicate Username",
+                "status": "Bad Request",
+                "code": 400,
+                "body": "{\n    \"success\": false,\n    \"message\": \"Tên đăng nhập đã tồn tại\"\n}"
+              }
+            ]
+          },
+          {
+            "name": "Update User",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/users/:username",
+              "description": "Cập nhật thông tin người dùng (chỉ admin)",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n\t\"password\": \"newpassword123\",\n\t\"role\": \"staff\"\n}"
+              }
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"message\": \"Cập nhật nhân viên thành công\"\n}"
+              },
+              {
+                "name": "Error - User Not Found",
+                "status": "Not Found",
+                "code": 404,
+                "body": "{\n    \"success\": false,\n    \"message\": \"Không tìm thấy nhân viên\"\n}"
+              }
+            ]
+          },
+          {
+            "name": "Delete User",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/users/:username",
+              "description": "Xóa người dùng (không thể xóa admin)"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"message\": \"Xóa nhân viên thành công\"\n}"
+              },
+              {
+                "name": "Error - Cannot Delete Admin",
+                "status": "Bad Request",
+                "code": 400,
+                "body": "{\n    \"success\": false,\n    \"message\": \"Không thể xóa tài khoản admin\"\n}"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "http://localhost:5000"
+      }
+    ]
+  }

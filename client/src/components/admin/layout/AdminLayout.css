@@ -1,0 +1,120 @@
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f5f6fa;
+}
+
+/* Sidebar */
+.admin-sidebar {
+    width: 250px;
+    background: #2c3e50;
+    color: white;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content */
+.admin-main {
+    flex: 1;
+    margin-left: 250px; /* Phải bằng width của sidebar */
+    padding: 20px;
+    background: #f5f6fa;
+    min-height: 100vh;
+}
+
+/* Sidebar header */
+.sidebar-header {
+    padding: 20px;
+    background: #243342;
+}
+
+.sidebar-header h3 {
+    color: #F28123;
+    margin: 0;
+    font-size: 20px;
+}
+
+.sidebar-header p {
+    color: #ffffff;
+    opacity: 0.7;
+    margin: 10px 0 0;
+    font-size: 14px;
+}
+
+/* Sidebar navigation */
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.sidebar-nav a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.sidebar-nav a.active {
+    background: #F28123;
+}
+
+.sidebar-nav a i {
+    width: 20px;
+    margin-right: 10px;
+}
+
+/* Logout button */
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.logout-btn i {
+    margin-right: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: 70px;
+    }
+    
+    .sidebar-header h3,
+    .sidebar-header p,
+    .sidebar-nav a span,
+    .logout-btn span {
+        display: none;
+    }
+    
+    .admin-main {
+        margin-left: 70px;
+    }
+}

@@ -1,0 +1,249 @@
+.admin-staff {
+    background: #f5f6fa;
+    padding: 20px;
+}
+
+.staff-header {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.staff-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.add-staff-btn {
+    background: #F28123;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.add-staff-btn:hover {
+    background: #e67612;
+    transform: translateY(-2px);
+}
+
+/* Form styles */
+.staff-form-container {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.staff-form h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.role-tag {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.role-tag.admin {
+    background-color: #e1f7e1;
+    color: #2ecc71;
+    border: 1px solid #2ecc71;
+}
+
+.role-tag.staff {
+    background-color: #e8f4fd;
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+
+.role-tag.kitchen {
+    background-color: #fff3e0;
+    color: #f39c12;
+    border: 1px solid #f39c12;
+}
+
+/* Table styles */
+.staff-table {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.staff-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.staff-table th,
+.staff-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.staff-table th {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+.edit-btn {
+    background: #3498db;
+    color: white;
+}
+
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Animation styles */
+.form-enter {
+    animation: slideDown 0.5s ease-out forwards;
+}
+
+.form-exit {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Animation cho tbody khi chuyển trang */
+.staff-table tbody {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Hiệu ứng xuất hiện tuần tự cho các dòng */
+.staff-table tr {
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+/* Delay cho từng dòng */
+.staff-table tr:nth-child(1) { animation-delay: 0.1s; }
+.staff-table tr:nth-child(2) { animation-delay: 0.15s; }
+.staff-table tr:nth-child(3) { animation-delay: 0.2s; }
+.staff-table tr:nth-child(4) { animation-delay: 0.25s; }
+.staff-table tr:nth-child(5) { animation-delay: 0.3s; }
+.staff-table tr:nth-child(6) { animation-delay: 0.35s; }
+.staff-table tr:nth-child(7) { animation-delay: 0.4s; }
+.staff-table tr:nth-child(8) { animation-delay: 0.45s; }
+.staff-table tr:nth-child(9) { animation-delay: 0.5s; }
+.staff-table tr:nth-child(10) { animation-delay: 0.55s; }
+
+.permission-table {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.permission-table h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.permission-table table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.permission-table th,
+.permission-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+  width: 25%;
+}
+
+.permission-table th:first-child,
+.permission-table td:first-child {
+  width: 20%;
+}
+
+.permission-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+.permission {
+  font-size: 14px;
+}
+
+.permission.admin {
+  color: #2ecc71;
+}
+
+.permission.kitchen {
+  color: #f39c12;
+}
+
+.permission.staff {
+  color: #3498db;
+}

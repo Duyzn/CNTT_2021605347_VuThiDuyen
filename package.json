@@ -1,0 +1,29 @@
+{
+  "name": "foodee",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && set PORT=6868 && npm start",
+    "server": "cd server && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "axios": "^1.7.8",
+    "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.7",
+    "qrcode": "^1.5.4",
+    "qrcode.react": "^4.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-router-dom": "^7.0.1",
+    "sweetalert2": "^11.14.5"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
