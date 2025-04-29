@@ -35,38 +35,8 @@ services:
       - foodee_network
 
   # Node.js Backend Service
-  server:
-    build: 
-      context: ./server
-      dockerfile: Dockerfile
-    container_name: node_foodee
-    restart: always
-    ports:
-      - "5000:5001"
-    depends_on:
-      - mysql-db
-    environment:
-      - DB_HOST=mysql-db
-      - DB_USER=baitap
-      - DB_PASSWORD=1
-      - DB_NAME=foodee_app
-      - DB_PORT=3306
-    networks:
-      - foodee_network
-
+  
   # React Frontend Service    
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    container_name: react_foodee
-    ports:
-      - "3000:3000"
-    depends_on:
-      - server
-    networks:
-      - foodee_network
-
 volumes:
   mysql_data:
 

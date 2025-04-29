@@ -38,7 +38,7 @@ app.get('/api/test', async (req, res) => {
 
 // Welcome route
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to Foodee API' });
+    res.json({ message: 'Welcome to Cơm Nhà API' });
 });
 
 // Import routes

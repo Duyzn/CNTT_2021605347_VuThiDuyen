@@ -46,7 +46,7 @@ function Footer() {
             <div className="col-lg-3 col-md-6">
               <div className="footer-box about-widget">
                 <h2 className="widget-title">Về chúng tôi</h2>
-                <p>Foodee - nơi hội tụ tinh hoa ẩm thực Việt Nam và quốc tế. Với hơn 20 năm kinh nghiệm, chúng tôi tự hào mang đến những trải nghiệm ẩm thực tuyệt vời nhất thông qua những món ăn được chế biến từ nguyên liệu tươi ngon, đảm bảo vệ sinh an toàn thực phẩm.</p>
+                <p>Cơm Nhà - nơi hội tụ tinh hoa ẩm thực Việt Nam và quốc tế. Với hơn 20 năm kinh nghiệm, chúng tôi tự hào mang đến những trải nghiệm ẩm thực tuyệt vời nhất thông qua những món ăn được chế biến từ nguyên liệu tươi ngon, đảm bảo vệ sinh an toàn thực phẩm.</p>
               </div>
             </div>
             <div className="col-lg-3 col-md-6">
@@ -54,7 +54,7 @@ function Footer() {
                 <h2 className="widget-title">Thông tin liên hệ</h2>
                 <ul>
                   <li>122 Hoàng Quốc Việt, Cổ Nhuế, Cầu Giấy, Hà Nội.</li>
-                  <li>support@Foodee.com</li>
+                  <li>support@ComNha.com</li>
                   <li>+00 111 222 3333</li>
                 </ul>
               </div>
@@ -104,8 +104,8 @@ function Footer() {
         <div className="container">
           <div className="row">
             <div className="col-lg-6 col-md-12">
-              <p>Copyrights &copy; 2024 - <a href="https://imransdesign.com/">Nam Nguyễn</a>, All Rights Reserved.<br />
-                Distributed By - Nam Nguyễn
+              <p>Copyrights &copy; 2024 - <a href="https://imransdesign.com/">Duyên Vũ</a>, All Rights Reserved.<br />
+                Distributed By - Duyên Vũ
               </p>
             </div>
             <div className="col-lg-6 text-right col-md-12">

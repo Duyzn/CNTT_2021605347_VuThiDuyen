@@ -9,8 +9,8 @@ import { hasPermission } from '../../../../utils/roleConfig';
 const QRModalComponent = ({ tableId, onClose, tables }) => {
     const [mergedImage, setMergedImage] = useState('');
     const [isClosing, setIsClosing] = useState(false);
-    const qrValue = `https://foodee.namtech.me/table/${tableId}`;
-    
+    //const qrValue = `https://foodee.namtech.me/table/${tableId}`;
+    const qrValue = `http://192.168.1.106:3000/tables/${tableId}`;
     useEffect(() => {
         const generateMergedImage = async () => {
             try {

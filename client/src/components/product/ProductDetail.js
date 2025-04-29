@@ -41,7 +41,7 @@ function ProductDetail() {
 
   const handleShare = (platform) => {
     const url = window.location.href;
-    const text = `Xem sản phẩm ${product.name} tại Foodee`;
+    const text = `Xem sản phẩm ${product.name} tại Cơm Nhà`;
     
     switch (platform) {
       case 'facebook':

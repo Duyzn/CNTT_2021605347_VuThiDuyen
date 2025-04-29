@@ -18,14 +18,14 @@ const newsletterController = {
                 <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                     <h1>Xin chào quý khách,</h1>
-                    <h3>Đây là Foodee, chúc quý khách một ngày tốt lành!</h3>
+                    <h3>Đây là Cơm Nhà, chúc quý khách một ngày tốt lành!</h3>
                     
                     <img width="480" height="269" 
                          src="https://media.giphy.com/media/S2IfEQqgWc0AH4r6Al/giphy.gif" 
                          alt="hello" 
                          style="max-width: 100%; height: auto;">
                     
-                    <p>Foodee tự hào là nhà hàng 4 sao với hơn 20 năm kinh nghiệm.<br>
+                    <p>Cơm Nhà tự hào là nhà hàng 4 sao với hơn 20 năm kinh nghiệm.<br>
                     Xin trân trọng cảm ơn sự tin tưởng của Quý khách!</p>
                     
                     <div style="margin-top: 20px;">
@@ -39,7 +39,7 @@ const newsletterController = {
                     
                     <p style="margin-top: 20px;">
                         Trân trọng,<br>
-                        Đội ngũ Foodee
+                        Đội ngũ Cơm Nhà
                     </p>
                 </body>
                 </html>
@@ -54,7 +54,7 @@ const newsletterController = {
             const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: email,
-                subject: 'Chào mừng bạn đến với Foodee! 🎉',
+                subject: 'Chào mừng bạn đến với Cơm Nhà! 🎉',
                 html: emailTemplate
             };
 
