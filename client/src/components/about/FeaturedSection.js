@@ -7,7 +7,7 @@ function FeaturedSection() {
         <div className="row">
           <div className="col-lg-7">
             <div className="featured-text">
-              <h2 className="pb-3">Why <span className="orange-text">Cơm Nhà</span></h2>
+              <h2 className="pb-3">Tại <span className="orange-text">Cơm Nhà</span></h2>
               <div className="row">
                 <div className="col-lg-6 col-md-6 mb-4 mb-md-5">
                   <div className="list-box d-flex">
@@ -16,7 +16,7 @@ function FeaturedSection() {
                     </div>
                     <div className="content">
                       <h3>Không lo "Bê - Vác"</h3>
-                      <p>Đặt trực tuyến - Phục vụ trực tiếp - Giao hàng tận nơi - Chỉ cần bạn muốn, FREESHIP toàn Hà Nội</p>
+                      <p>Đặt trực tuyến - Phục vụ trực tiếp - Giao hàng tận nơi - Chỉ cần bạn muốn</p>
                     </div>
                   </div>
                 </div>

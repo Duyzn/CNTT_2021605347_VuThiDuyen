@@ -10,7 +10,9 @@ const QRModalComponent = ({ tableId, onClose, tables }) => {
     const [mergedImage, setMergedImage] = useState('');
     const [isClosing, setIsClosing] = useState(false);
     //const qrValue = `https://foodee.namtech.me/table/${tableId}`;
-    const qrValue = `http://192.168.1.106:3000/tables/${tableId}`;
+    
+    //const qrValue = `http://192.168.1.106:3000/tables/${tableId}`;
+    const qrValue = `https://nhahangcomnha.vercel.app//table/${tableId}`;
     useEffect(() => {
         const generateMergedImage = async () => {
             try {

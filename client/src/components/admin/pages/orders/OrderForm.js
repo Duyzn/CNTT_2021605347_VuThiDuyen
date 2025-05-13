@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -142,6 +143,99 @@ function OrderForm({ onClose }) {
     return (product.price + toppingTotal) * quantity;
   };
 
+ 
+  //kiểm tra trạng thái bàn
+  // Giả sử bạn đang gửi yêu cầu để kiểm tra đơn hàng với ID 3
+   
+  const checkPendingOrder = async (tableId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/orders/has-pending/${tableId}`, config);
+      console.log(response.data);
+    } catch (error) {
+      // Xử lý lỗi khi yêu cầu không thành công
+      if (error.response) {
+        // Nếu có phản hồi từ server
+        console.error('Lỗi từ server:', error.response.data);
+        if (error.response.status === 404) {
+          // Hiển thị thông báo lỗi khi không tìm thấy đơn hàng
+          alert('Đơn hàng không tồn tại hoặc không có đơn hàng đang chờ.');
+        }
+      } else if (error.request) {
+        // Nếu không nhận được phản hồi từ server
+        console.error('Lỗi kết nối đến server:', error.request);
+      } else {
+        console.error('Lỗi khi thiết lập yêu cầu:', error.message);
+      }
+    }
+  };
+  /* 
+  const checkPendingOrder = async (tableId) => {
+    try {
+      //const res = await axios.get(`http://localhost:5000/api/orders/has-pending/${tableId}`, config);
+      const url = `http://localhost:5000/api/orders/has-pending/${tableId}`;
+      console.log('Gọi tới:', url); // 👉 CHÈN LOG này để xem Axios gọi gì
+
+      const res = await axios.get(url, config);
+      
+      if (!res.data.success) return false;
+      return !res.data.hasPendingOrder;
+    } catch (error) {
+      console.error('Lỗi kiểm tra đơn hàng:', error);
+      return false;
+    }
+  };
+*/
+  /*
+  const checkTableStatus = async (tableId) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/tables/info/${tableId}`, config);
+      console.log('Kết quả kiểm tra bàn:', res.data);
+  
+      if (!res.data.success || !res.data.data) {
+        console.warn('API không trả đúng data hoặc success');
+        return false;
+      }
+  
+      const status = res.data.data.status;
+      console.log('Trạng thái bàn:', status);
+  
+      return status === 'available' || status === 'complete';
+    } catch (error) {
+      console.error('Lỗi khi kiểm tra trạng thái bàn:', error);
+      return false;
+    }
+  };
+  */
+    const handlePlaceOrder = async () => {
+    try {
+      // Gọi API kiểm tra trạng thái đơn hàng
+      const res = await axios.get(`http://localhost:5000/api/orders/has-pending/${tableId}`);
+
+      if (res.data.hasPending) {
+        alert('Bàn này đã có đơn đang chờ xử lý. Vui lòng đợi món được phục vụ trước khi gọi thêm.');
+        return;
+      }
+
+      // Nếu không có đơn pending thì tiếp tục đặt đơn mới
+      await axios.post('http://localhost:5000/api/orders', {
+        table_id: tableId,
+        items: cartItems, // hoặc dữ liệu món ăn đã chọn
+        note: note || ""
+      });
+
+      alert('Đặt đơn thành công!');
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        alert('Bàn không tồn tại hoặc đang bảo trì. Không thể đặt đơn.');
+      } else {
+        alert('Lỗi khi đặt đơn. Vui lòng thử lại.');
+        console.error(error);
+      }
+    }
+  };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!tableNumber || orderItems.length === 0) {
@@ -149,6 +243,16 @@ function OrderForm({ onClose }) {
       return;
     }
 
+    
+    // Kiểm tra trạng thái bàn
+    const isTableFree = await checkPendingOrder(tableNumber);
+    if (!isTableFree) {
+      Swal.fire('Bàn này đang có đơn chưa xử lý', 'Vui lòng hoàn tất đơn cũ trước khi tạo đơn mới.', 'warning');
+      return;
+    }
+    
+
+    
     try {
       // Tạo cấu trúc dữ liệu giống như trong CartTotal
       const orderData = {

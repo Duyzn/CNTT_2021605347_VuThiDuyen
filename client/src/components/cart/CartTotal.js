@@ -89,7 +89,7 @@ function CartTotal() {
       console.error('Error during checkout:', error);
       Swal.fire({
         title: 'Lỗi',
-        text: 'Không thể hoàn tất thanh toán',
+        text: 'Không thể gửi đơn hàng. Vui lòng thử lại sau.',  
         icon: 'error'
       });
     }
@@ -113,7 +113,7 @@ function CartTotal() {
       </table>
       <div className="cart-buttons">
         <Link to="/menu" className="boxed-btn">Tiếp tục đặt món</Link>
-        <Link onClick={handleCheckout} className="boxed-btn black">Thanh toán</Link>
+        <Link onClick={handleCheckout} className="boxed-btn black">Gửi đơn</Link>
       </div>
     </div>
   );

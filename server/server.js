@@ -9,9 +9,10 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: [
-    'https://perceptive-bravery-production.up.railway.app',
+    'https://nhahangcomnha-production.up.railway.app',
     'http://localhost:3000',
-    'https://foodee.namtech.me'
+    'https://nhahangcomnha.vercel.app', // Domain frontend thật
+   // 'https://foodee.namtech.me'
   ],
   credentials: true
 }));

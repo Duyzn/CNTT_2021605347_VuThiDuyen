@@ -3,6 +3,25 @@ const { success, error } = require('../utils/response');
 const db = require('../config/database');
 
 const orderController = {
+    checkPendingOrderByTable: async (req, res) => {
+        const { tableId } = req.params;
+        try {
+          const [orders] = await db.execute(
+            'SELECT * FROM orders WHERE table_id = ? AND status = ?',
+            [tableId, 'pending']
+          );
+      
+          if (orders.length > 0) {
+            return res.json({ success: true, hasPendingOrder: true });
+          } else {
+            return res.json({ success: true, hasPendingOrder: false });
+          }
+        } catch (err) {
+          console.error('Lỗi khi kiểm tra đơn pending:',err);
+          return res.status(500).json({ success: false, message: 'Lỗi server' });
+        }
+      },
+      
     addOrder: async (req, res) => {
         try {
             console.log('Request body:', req.body);
@@ -11,7 +30,25 @@ const orderController = {
             if (!tableId || !products || !Array.isArray(products)) {
                 return error(res, 'Dữ liệu đơn hàng không hợp lệ');
             }
+        /*
+            // ❗️Kiểm tra trạng thái bàn trước khi tạo đơn
+            const [tableResult] = await db.execute(
+                'SELECT status FROM tables WHERE id = ?',
+                [tableId]
+            );
 
+            if (!tableResult || tableResult.length === 0) {
+                return error(res, 'Không tìm thấy bàn');
+            }
+
+            const tableStatus = tableResult[0].status;
+            
+            if (tableStatus === 'pending') {
+                return error(res, 'Bàn này đang có đơn chờ, không thể tạo đơn mới');
+            }
+*/
+
+  
             // Xử lý từng sản phẩm trong đơn hàng
             const processedProducts = await Promise.all(products.map(async (product) => {
                 const [productInfo] = await db.execute(
@@ -36,6 +73,8 @@ const orderController = {
             }));
 
             const result = await orderModel.createOrder(tableId, processedProducts);
+            await db.execute('UPDATE tables SET status = ? WHERE id = ?', ['pending', tableId]);
+
             return success(res, 'Đơn hàng đã được tạo thành công', result);
         } catch (err) {
             console.error('Error in addOrder:', err);

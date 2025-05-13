@@ -35,6 +35,19 @@ const DashboardModel = {
             LIMIT 5
         `);
 
+        // Thống kê sản phẩm bán chậm
+        const [worstProducts] = await db.query(`
+            SELECT 
+                p.name,
+                SUM(oi.quantity) as total_sold
+            FROM order_items oi
+            JOIN products p ON oi.product_id = p.id
+            JOIN orders o ON oi.order_id = o.id
+            WHERE o.status = 'completed'
+            GROUP BY p.id
+            ORDER BY total_sold DESC
+            LIMIT 5
+        `);
         return {
             users: userCount[0].total,
             categories: categoryCount[0].total,
@@ -43,7 +56,8 @@ const DashboardModel = {
             orders: orderCount[0].total,
             revenue: revenue[0].total || 0,
             revenueByMonth,
-            topProducts
+            topProducts,
+            worstProducts
         };
     }
 };

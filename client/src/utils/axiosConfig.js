@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:5000';
+//const baseURL = 'http://localhost:5000';
+const baseURL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5000'  // local server khi dev
+    : 'https://nhahangcomnha-production.up.railway.app';  // URL Railway backend bạn
 
 const axiosClient = axios.create({
     baseURL: baseURL,

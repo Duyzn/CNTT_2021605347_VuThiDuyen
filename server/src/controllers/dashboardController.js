@@ -76,6 +76,21 @@ const DashboardController = {
                 LIMIT 5
             `);
             console.log('Top products:', topProducts);
+                
+            // Sửa lại query top sản phẩm bán chậm
+            const [worstProducts] = await db.query(`
+                SELECT 
+                    p.name,
+                    COALESCE(SUM(oi.quantity), 0) as total_sold
+                FROM products p
+                LEFT JOIN order_items oi ON p.id = oi.product_id
+                LEFT JOIN orders o ON oi.order_id = o.id AND o.status = 'completed'
+                GROUP BY p.id
+                HAVING total_sold > 0
+                ORDER BY total_sold ASC
+                LIMIT 5
+            `);
+            console.log('Worst products:', worstProducts);
 
             // Sửa lại query đếm số đơn hàng theo tháng
             const [ordersByMonth] = await db.query(`
@@ -99,6 +114,7 @@ const DashboardController = {
                 revenue: revenue[0].total,
                 revenueByMonth: revenueByMonth,
                 topProducts: topProducts,
+                worstProducts: worstProducts,
                 ordersByMonth: ordersByMonth
             };
 
@@ -271,7 +287,7 @@ const DashboardController = {
                 FROM orders 
                 WHERE status = 'completed'
                 GROUP BY month
-                ORDER BY STR_TO_DATE(CONCAT('01/', month), '%d/%m/%Y') DESC
+                ORDER BY STR_TO_DATE(CONCAT('01/', month), '%Y-%m-%d') DESC
             `);
 
             revenueData.forEach(data => {
@@ -295,7 +311,82 @@ const DashboardController = {
                 message: 'Lỗi khi xuất dữ liệu doanh thu'
             });
         }
+    },
+    
+    //API endpoint cho đơn hàng theo thời gian
+    orderByDate: async (req, res) => {
+        console.log("Received request to /orderbydate");
+        res.send('Route orderbydate hoạt động!');
+        try {
+    const { startDate, endDate } = req.query;
+    
+    // Validate các tham số đầu vào
+    if (!startDate || !endDate) {
+      return res.status(400).json({ success: false, message: 'Vui lòng cung cấp ngày bắt đầu và ngày kết thúc' });
     }
+    
+    // const result = await pool.query(`
+    //   SELECT 
+    //     DATE_FORMAT(created_at, '%Y-%m-%d') as date,
+    //     COUNT(*) as count
+    //   FROM orders
+    //   WHERE created_at BETWEEN ? AND DATE_ADD(?, INTERVAL 1 DAY)
+    //   GROUP BY DATE_FORMAT(created_at, '%Y-%m-%d')
+    //   ORDER BY MIN(created_at)
+    // `, [startDate, endDate]);
+    
+        const [result] = await db.query(`
+        SELECT 
+            DATE(created_at) AS date,
+            COUNT(*) AS total_orders,
+            SUM(total_amount) AS total_revenue
+        FROM orders
+        WHERE status = 'completed'
+            AND DATE(created_at) BETWEEN ? AND ?
+        GROUP BY DATE(created_at)
+        ORDER BY DATE(created_at)
+        `, [startDate, endDate]);
+
+
+    res.json({
+      success: true,
+      data: result
+    });
+    
+  } catch (error) {
+    console.error('Error fetching orders by date:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Đã xảy ra lỗi khi lấy dữ liệu đơn hàng theo thời gian'
+    });
+}
+    } ,
+    revenueByDate: async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+
+        if (!startDate || !endDate) {
+            return res.status(400).json({ success: false, message: 'Vui lòng cung cấp ngày bắt đầu và kết thúc' });
+        }
+
+        const [result] = await db.query(`
+            SELECT 
+                DATE_FORMAT(created_at, '%d/%m/%Y') as date,
+                SUM(total_amount) as revenue
+            FROM orders
+            WHERE status = 'completed'
+              AND created_at BETWEEN ? AND DATE_ADD(?, INTERVAL 1 DAY)
+            GROUP BY DATE_FORMAT(created_at, '%d/%m/%Y')
+            ORDER BY MIN(created_at)
+        `, [startDate, endDate]);
+            // console.log('my result ======', result);
+        res.json({ success: true, data: result });
+    } catch (error) {
+        console.error('Error fetching revenue by date:', error);
+        res.status(500).json({ success: false, message: 'Lỗi khi lấy dữ liệu doanh thu theo thời gian' });
+    }
+}
+
 };
 
 module.exports = DashboardController;

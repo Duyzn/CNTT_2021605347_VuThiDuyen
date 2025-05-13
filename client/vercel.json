@@ -6,6 +6,6 @@
       }
     ],
     "env": {
-      "REACT_APP_API_URL": "https://believable-rejoicing-production.up.railway.app"
+      "REACT_APP_API_URL":"https://nhahangcomnha-production.up.railway.app"
     }
   }

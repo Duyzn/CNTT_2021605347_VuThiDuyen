@@ -682,6 +682,29 @@
                 "description": "Returns Excel file with columns: Tháng, Doanh thu, Số đơn hàng"
               }
             ]
+          },
+          {
+            "name": "Get Dashboard Date",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}",
+                  "type": "text"
+                }
+              ],
+              "url": "{{base_url}}/api/dashboard/orderbydate",
+              "description": "Lấy tất cả thống kê cho dashboard theo thời gian"
+            },
+            "response": [
+              {
+                "name": "Success",
+                "status": "OK",
+                "code": 200,
+                "body": "{\n    \"success\": true,\n    \"data\": {\n        \"users\": 10,\n        \"categories\": 5,\n        \"products\": 25,\n        \"tables\": 15,\n        \"orders\": 100,\n        \"revenue\": 5000000,\n        \"revenueByMonth\": [\n            {\n                \"month\": \"03/2025\",\n                \"revenue\": 2000000\n            }\n        ],\n        \"topProducts\": [\n            {\n                \"name\": \"Phở bò\",\n                \"total_sold\": 50\n            }\n        ],\n        \"ordersByMonth\": [\n            {\n                \"month\": \"03/2025\",\n                \"count\": 30\n            }\n        ]\n    }\n}"
+              }
+            ]
           }
         ]
       },
