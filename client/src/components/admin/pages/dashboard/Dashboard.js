@@ -225,7 +225,7 @@ function Dashboard() {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'Orders__namn44241.xlsx');
+            link.setAttribute('download', 'Donhang.xlsx');
             document.body.appendChild(link);
             link.click();
             link.remove();
@@ -248,7 +248,7 @@ function Dashboard() {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'Revenue_Foodee_namn44241.xlsx');
+            link.setAttribute('download', 'Doanhthu.xlsx');
             document.body.appendChild(link);
             link.click();
             link.remove();
@@ -309,7 +309,36 @@ function Dashboard() {
                     <p>{formatCurrency(stats.revenue)}</p>
                 </div>
             </div>
-            
+            <div className="dashboard-tabs">
+               <ul className="nav nav-tabs mb-4">
+                    <li className="nav-item">
+                        <button                             
+                        >
+                            Tổng quan
+                        </button>
+                    </li>
+                    <li className="nav-item">
+                        <button 
+                            
+                        >
+                            Đơn hàng theo thời gian
+                        </button>
+                    </li>
+                    <li className="nav-item">
+                        <button 
+                            
+                        >
+                            Doanh thu theo thời gian
+                        </button>
+                    </li>
+                    <li className="nav-item">
+                        <button 
+                            
+                        >
+                            Phân tích sản phẩm
+                        </button>
+                    </li>
+                </ul> 
             <div className="dashboard-charts">
                 <div className="chart-container">
                     <h3>Doanh thu theo tháng</h3>
@@ -328,6 +357,7 @@ function Dashboard() {
                     <Chart type="scatter" data={mixedChartData} options={mixedChartOptions} />
                 </div>
             </div>
+</div>
         </div>
     );
 }

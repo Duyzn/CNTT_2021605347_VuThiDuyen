@@ -136,10 +136,14 @@ const orderModel = {
     createOrder: async (tableId, products) => {
         const connection = await db.getConnection();
         try {
+            console.log('Starting transaction for order creation...');
             await connection.beginTransaction();
 
             // 1. Tạo đơn hàng mới
-            const orderCode = `ORD${Date.now() - (7 * 60 * 60 * 1000)}`;
+            // const orderCode = `ORD${Date.now() - (7 * 60 * 60 * 1000)}`;
+            // const totalAmount = products.reduce((sum, product) => 
+            //     sum + (product.quantity * (product.base_price + (product.topping_price || 0))), 0);
+            const orderCode = `ORD${Date.now()}`;
             const totalAmount = products.reduce((sum, product) => 
                 sum + (product.quantity * (product.base_price + (product.topping_price || 0))), 0);
 
@@ -150,9 +154,21 @@ const orderModel = {
             );
 
             const orderId = orderResult.insertId;
+            console.log('Order created with ID:', orderId);
 
             // 2. Thêm từng sản phẩm vào order_items
+            console.log('Adding order items...');
             for (const product of products) {
+                //const itemTotal = product.quantity * (Number(product.base_price) + Number(product.topping_price || 0));
+                // console.log('Adding item:', {
+                //     orderId,
+                //     productId: product.product_id,
+                //     quantity: product.quantity,
+                //     basePrice: product.base_price,
+                //     toppingPrice: product.topping_price,
+                //     itemTotal
+                // });
+
                 await connection.execute(
                     `INSERT INTO order_items (
                         order_id, 
@@ -166,17 +182,23 @@ const orderModel = {
                         orderId,
                         product.product_id,
                         product.quantity,
-                        product.base_price,
-                        product.topping_price || 0,
+                        Number(product.base_price),
+                        Number(product.topping_price || 0),
+                        //itemTotal,
                         JSON.stringify(product.order_toppings || [])
                     ]
                 );
             }
 
+            console.log('Committing transaction...');
             await connection.commit();
             return { order_id: orderId, order_code: orderCode };
+        
+
+           
 
         } catch (error) {
+            console.error('Error in createOrder:', error);
             await connection.rollback();
             throw error;
         } finally {

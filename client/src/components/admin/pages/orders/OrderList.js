@@ -34,6 +34,7 @@ function OrderList() {
   const fetchOrders = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/orders');
+    // const response = await axios.get('https://nhahangcomnha-production.up.railway.app/api/orders');
       if (response.data && Array.isArray(response.data.data)) {
         setOrders(response.data.data);
         setFilteredOrders(response.data.data);
@@ -113,7 +114,10 @@ function OrderList() {
       (order.product_details && order.product_details.some(detail => 
         detail.name.toLowerCase().includes(searchValue)
       )) ||
-      new Date(order.created_at).toLocaleString('vi-VN').toLowerCase().includes(searchValue)
+      new Date(order.created_at)
+      .toLocaleString('vi-VN',{ timeZone: 'Asia/Ho_Chi_Minh' })
+      .toLowerCase()
+      .includes(searchValue)
     );
     setFilteredOrders(filtered);
   };

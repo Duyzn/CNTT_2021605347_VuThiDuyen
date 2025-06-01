@@ -11,9 +11,4 @@ router.get('/stats', auth, checkRole(['admin']), DashboardController.getStats);
 router.get('/export/orders', DashboardController.exportOrders);
 router.get('/export/revenue', DashboardController.exportRevenue);
 
-//API endpoint cho đơn hàng theo thời gian
-router.get('/orderbydate',  DashboardController.orderByDate);
-
-router.get('/revenue-by-date', auth, checkRole(['admin']), DashboardController.revenueByDate);
-
-module.exports = router;
+    module.exports = router;
